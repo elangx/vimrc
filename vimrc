@@ -1,3 +1,5 @@
+" 解决backspace不可用
+set backspace=indent,eol,start
 "定义快捷键的前缀，即<Leader>
 let mapleader=","
 " 开启文件类型侦测
