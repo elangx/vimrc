@@ -1,91 +1,80 @@
-#**This project is unmaintained** 
-**You should use [this fork](https://github.com/ctrlpvim/ctrlp.vim) instead.**
+### [Project on Vim.org](http://www.vim.org/scripts/script.php?script_id=4177)
 
-# ctrlp.vim
-Full path fuzzy __file__, __buffer__, __mru__, __tag__, __...__ finder for Vim.
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mbbill/undotree?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-* Written in pure Vimscript for MacVim, gVim and Vim 7.0+.
-* Full support for Vim's regexp as search patterns.
-* Built-in Most Recently Used (MRU) files monitoring.
-* Built-in project's root finder.
-* Open multiple files at once.
-* Create new files and directories.
-* [Extensible][2].
+### Screenshot
+![](https://sites.google.com/site/mbbill/undotree_new.png)
 
-![ctrlp][1]
+### Description
+Vim 7.0 added a new feature named **Undo branches**. Basically it's a kind of ability to go back to the text after any change, even if they were undone. Vim stores undo history in a tree which you can browse and manipulate through a bunch of commands. But that was not enough straightforward and a bit hard to use. You may use `:help new-undo-branches` or `:help undo-tree` to get more detailed help.
+Now this plug-in will free you from those commands and bring back the power of undo tree.
 
-## Basic Usage
-* Run `:CtrlP` or `:CtrlP [starting-directory]` to invoke CtrlP in find file mode.
-* Run `:CtrlPBuffer` or `:CtrlPMRU` to invoke CtrlP in find buffer or find MRU file mode.
-* Run `:CtrlPMixed` to search in Files, Buffers and MRU files at the same time.
+### Features
+ 1. Visualize undo-tree
+    * The undo history is sorted based on the changes' timestamp. The year/month/day field will not be displayed if the changes were made within the same day.
+    * The change sequence number is displayed before timestamp.
+    * The current position is marked as **>seq<**.
+    * The next change that will be restored by `:redo` or `<ctrl-r>` is marked as **{seq}**, it's the same as *curhead* returned by *undotree()*
+    * The **[seq]** marks the last change and where further changes will be added, it's the same as *newhead* returned by *undotree()*
+    * Saved changes are marked as **s** and the capitalized **S** indicates the last saved change.
+ 1. Live updated diff panel.
+ 1. Highlight for added and changed text.
+ 1. Revert to a specific change by a single mouse click or key stroke.
+ 1. Customizable hotkeys and highlighting.
+ 1. Display changes in diff panel.
 
-Check `:help ctrlp-commands` and `:help ctrlp-extensions` for other commands.
+### [Download](https://github.com/mbbill/undotree/tags)
 
-##### Once CtrlP is open:
-* Press `<F5>` to purge the cache for the current directory to get new files, remove deleted files and apply new ignore options.
-* Press `<c-f>` and `<c-b>` to cycle between modes.
-* Press `<c-d>` to switch to filename only search instead of full path.
-* Press `<c-r>` to switch to regexp mode.
-* Use `<c-j>`, `<c-k>` or the arrow keys to navigate the result list.
-* Use `<c-t>` or `<c-v>`, `<c-x>` to open the selected entry in a new tab or in a new split.
-* Use `<c-n>`, `<c-p>` to select the next/previous string in the prompt's history.
-* Use `<c-y>` to create a new file and its parent directories.
-* Use `<c-z>` to mark/unmark multiple files and `<c-o>` to open them.
+### Install
+ 1. Unpack all scripts into *.vim* directory and that's all. This script is written purely in Vim script with no additional dependency.
+ 1. It's highly recommend using **pathogen** or **Vundle** to manage your plug-ins.
 
-Run `:help ctrlp-mappings` or submit `?` in CtrlP for more mapping help.
+### Usage
+ 1. Use `:UndotreeToggle` to toggle the undo-tree panel. You may want to map this command to whatever hotkey by adding the following line to your vimrc, take F5 for example.
 
-* Submit two or more dots `..` to go up the directory tree by one or multiple levels.
-* End the input string with a colon `:` followed by a command to execute it on the opening file(s):  
-Use `:25` to jump to line 25.  
-Use `:diffthis` when opening multiple files to run `:diffthis` on the first 4 files.
+    nnoremap    &lt;F5&gt;    :UndotreeToggle&lt;cr&gt;
 
-## Basic Options
-* Change the default mapping and the default command to invoke CtrlP:
+ 1. Then you can try to do some modification, and the undo tree will automatically updated afterwards.
+ 1. There are some hotkeys provided by vim to switch between the changes in history, like `u`, `<ctrl-r>`, `g+`, `g-` as well as the `:earlier` and `:later` commands.
+ 1. You may also switch to undotree panel and use the hotkeys to switch between history versions. Press `?` in undotree window for quick help of hotkeys.
+ 1. You can monitor the changed text in diff panel which is automatically updated when undo/redo happens.
+ 1. Persistent undo
+    * It is highly recommend to enable the persistent undo. If you don't like your working directory be messed up with the undo file everywhere, you may add the following line to your *vimrc* in order to make them stored together.
 
-    ```vim
-    let g:ctrlp_map = '<c-p>'
-    let g:ctrlp_cmd = 'CtrlP'
-    ```
+// In your vimrc
 
-* When invoked, unless a starting directory is specified, CtrlP will set its local working directory according to this variable:
+    if has("persistent_undo")
+        set undodir=~/.undodir/
+        set undofile
+    endif
 
-    ```vim
-    let g:ctrlp_working_path_mode = 'ra'
-    ```
+### Configuration
+ 1. Basically, you do not need any configuration to let it work, cool?
+ 1. But if you still want to do some customization, there is also a couple of options provided.
+    * [Here](https://github.com/mbbill/undotree/blob/master/plugin/undotree.vim#L15) is a list of these options.
 
-    `'c'` - the directory of the current file.  
-    `'r'` - the nearest ancestor that contains one of these directories or files: `.git` `.hg` `.svn` `.bzr` `_darcs`  
-    `'a'` - like c, but only if the current working directory outside of CtrlP is not a direct ancestor of the directory of the current file.  
-    `0` or `''` (empty string) - disable this feature.
+### Post any issue and feature request here:
+https://github.com/mbbill/undotree/issues
 
-    Define additional root markers with the `g:ctrlp_root_markers` option.
+### Debug
+ 1. Create a file under $HOME with the name `undotree_debug.log`
+    * `$touch ~/undotree_debug.log`
+ 1. Run vim, and the log will automatically be appended to the file, and you may watch it using `tail`:
+    * `$tail -F ~/undotree_debug.log`
+ 1. If you want to disable debug, just delete that file.
 
-* Exclude files and directories using Vim's `wildignore` and CtrlP's own `g:ctrlp_custom_ignore`:
+### Alternatives
+Someone asked me about the difference with [Gundo](https://bitbucket.org/sjl/gundo.vim/), here is a list of differences, or advantages.
+ 1. Pure vimscript implementation and no 3rd-party libraries(like python) is needed, don't worry about performance, it's not such a big deal for vim to handle this. The only dependency is the 'diff' tool which always shipped with vim and even without 'diff' you still can use most of the features of this script.
+ 1. Realtime updated undo tree. Once you make changes, the undo tree will be updated simultaneously.
+ 1. Several useful marks, like current changeset, next redo changeset, saved changeset, etc.
+ 1. Toggle between relative timestamp and absolute timestamp.
+ 1. Realtime updated undo window.
+ 1. Ability to clear undo history.
+ 1. More customizable.
 
-    ```vim
-    set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-    set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+### License
+**BSD**
 
-    let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-    let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-      \ 'file': '\v\.(exe|so|dll)$',
-      \ 'link': 'some_bad_symbolic_links',
-      \ }
-    ```
-
-* Use a custom file listing command:
-
-    ```vim
-    let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
-    let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
-    ```
-
-Check `:help ctrlp-options` for other options.
-
-## Installation
-Use your favorite method or check the homepage for a [quick installation guide][3].
-
-[1]: http://i.imgur.com/yIynr.png
-[2]: https://github.com/kien/ctrlp.vim/tree/extensions
-[3]: http://kien.github.com/ctrlp.vim#installation
+### Author
+Ming Bai  &lt;mbbill AT gmail DOT COM&gt;
