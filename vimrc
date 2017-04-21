@@ -128,6 +128,8 @@ if has("persistent_undo")
     " If undotree is opened, it is likely one wants to interact with it.
     let g:undotree_SetFocusWhenToggle=1
 endif
+nmap <C-t> :copen<cr>
+nmap <C-y> :cclose<cr>
 " Tabularize
 nmap <Leader>a& :Tabularize /&<CR>
 vmap <Leader>a& :Tabularize /&<CR>
