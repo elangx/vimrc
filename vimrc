@@ -115,6 +115,8 @@ map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
 nnoremap <Leader>sp :Grep -ir<CR><CR><CR>
 " 使用 Grep.vim 插件在工程内全局查找，设置快捷键。快捷键速记法：search in buffer
 nnoremap <Leader>sb :GrepBuffer -ir<CR><CR>
+" 底部固定余留行数
+set scrolloff=20
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
