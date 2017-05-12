@@ -122,6 +122,12 @@ iab xdt <c-r>=strftime("20%y.%m.%d %H:%M:%S")<cr>
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+" php自动补全
+au FileType php call PHPFuncList()
+function PHPFuncList()
+    set dictionary-=~/.vim/php_funclist.txt dictionary+=~/.vim/php_funclist.txt
+    set complete-=k complete+=k
+endfunction
 " undotree
 if has("persistent_undo")
     set undodir=~/.undodir/
