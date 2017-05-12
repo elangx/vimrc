@@ -117,6 +117,8 @@ nnoremap <Leader>sp :Grep -ir<CR><CR><CR>
 nnoremap <Leader>sb :GrepBuffer -ir<CR><CR>
 " 底部固定余留行数
 set scrolloff=20
+" 插入当前时间
+iab xdt <c-r>=strftime("20%y.%m.%d %H:%M:%S")<cr>
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
