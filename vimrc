@@ -3,7 +3,7 @@ set backspace=indent,eol,start
 "定义快捷键的前缀，即<Leader>
 let mapleader=","
 " 开启文件类型侦测
-filetype on
+filetype off
 "根据侦测到的不同类型加载对应的插件
 filetype plugin on
 nmap lb 0
@@ -157,7 +157,7 @@ vmap <Leader>a,, :Tabularize /,\zs<CR>
 nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 
-"neocomplate
+" neocomplete
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -227,3 +227,13 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+" Vundle.vim配置
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'
+Plugin 'cespare/vim-toml'
+call vundle#end()
+filetype plugin indent on
+let g:go_fmt_command = "goimports"
